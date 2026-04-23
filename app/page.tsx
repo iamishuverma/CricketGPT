@@ -10,10 +10,10 @@ import { TextStreamChatTransport } from "ai";
 
 const Home = () => {
   const { sendMessage, status, messages } = useChat({
-  transport: new TextStreamChatTransport({
-    api: "/api/chat",
-  }),
-});
+    transport: new TextStreamChatTransport({
+      api: "/api/chat",
+    }),
+  });
   const [input, setInput] = useState("");
 
   const noMessages = !messages || messages.length === 0;
@@ -29,14 +29,13 @@ const Home = () => {
 
     if (!input) return;
 
-    const text = input
+    const text = input;
 
     setInput("");
 
     await sendMessage({
       text: text,
     });
-
   };
 
   return (
