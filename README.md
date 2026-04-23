@@ -1,40 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 🏏 CricketGPT
+
+An AI-powered chatbot that answers all your Cricket questions — from the basics of the game to the latest tournament results.
+
+## What is it?
+
+CricketGPT combines the power of GPT-4.1 nano with a Retrieval Augmented Generation (RAG) pipeline to answer Cricket questions accurately, even beyond the model's knowledge cutoff. It scrapes Cricket-related Wikipedia pages, stores them as vector embeddings in AstraDB, and retrieves the most relevant context for every question asked.
+
+## Tech Stack
+
+- **Next.js** — frontend and API routes
+- **AI SDK v6** — streaming chat with `useChat`
+- **OpenAI GPT-4.1 nano** — language model
+- **AstraDB** — vector database for storing embeddings
+- **Puppeteer** — web scraping Wikipedia pages
+- **LangChain** — text splitting and document loading
 
 ## Getting Started
 
-First, run the development server:
-
+1. Clone the repository
+2. Install dependencies
+```bash
+npm install
+```
+3. Set up your `.env` file
+```env
+OPENAI_API_KEY=
+ASTRA_DB_API_ENDPOINT=
+ASTRA_DB_APPLICATION_TOKEN=
+ASTRA_DB_NAMESPACE=
+ASTRA_DB_COLLECTION=
+```
+4. Seed the database
+```bash
+npm run seed
+```
+5. Run the development server
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How it works
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+1. Cricket-related Wikipedia pages are scraped and split into chunks
+2. Each chunk is embedded using `text-embedding-3-small` and stored in AstraDB
+3. When a user asks a question, the question is embedded and the top 10 most relevant chunks are retrieved
+4. The chunks are injected into the prompt as context for GPT-4.1 nano to answer accurately
